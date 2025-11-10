@@ -27,9 +27,8 @@ services:
     ports:
       - "8080:80"   # obra http://localhost:8080
     environment:
-      APP_ENV: production
       APP_DEBUG: 'false'
-      APP_URL: http://localhost:8080/
+      APP_URL: http://192.168.10.95:8080/
       APP_KEY: base64:47cM7IKmLeYSqETtwgk22eV4YwMvmmg0Ny/Jz8nb+sQ=
       # DB
       DB_CONNECTION: mysql
