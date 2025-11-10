@@ -40,7 +40,7 @@ services:
       MAIL_DRIVER: smtp
       MAIL_HOST: mailhog
       MAIL_PORT: 1025
-      MAIL_FROM_ADDRESS: admin@example.com
+      MAIL_FROM_ADDRESS: admin@gmail.com
       MAIL_FROM_NAME: "Snipe-IT"
     volumes:
       - snipe_uploads:/var/lib/snipeit/uploads
