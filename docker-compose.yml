@@ -5,6 +5,7 @@ services:
     container_name: snipeit_db
     restart: unless-stopped
     environment:
+    APP_KEY: base64:zwshFju29DbTntVnkbbsVfXXhrJPftL006SPQvYql1s=
       MYSQL_ROOT_PASSWORD: Vic2025!   
       MYSQL_DATABASE: snipeit
       MYSQL_USER: admin
@@ -28,7 +29,7 @@ services:
     environment:
       APP_DEBUG: 'false'
       APP_URL: http://localhost:8080
-      APP_KEY=base64:UNBnhwd1N5/Kqo+VVT04P9iEne0JkRyPGFucAKDgu6k=
+      APP_KEY: base64:UNBnhwd1N5/Kqo+VVT04P9iEne0JkRyPGFucAKDgu6k=
       # DB
       DB_CONNECTION: mysql
       DB_HOST: db
