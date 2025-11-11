@@ -28,7 +28,7 @@ services:
     environment:
       APP_DEBUG: 'false'
       APP_URL: http://localhost:8080
-      APP_KEY: generate
+      APP_KEY=base64:UNBnhwd1N5/Kqo+VVT04P9iEne0JkRyPGFucAKDgu6k=
       # DB
       DB_CONNECTION: mysql
       DB_HOST: db
