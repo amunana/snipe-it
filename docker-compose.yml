@@ -1,47 +1,38 @@
-services:
-  db:
-    image: mariadb:10.6
-    container_name: snipeit_db
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: Vic2025!
-      MYSQL_DATABASE: snipeit
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: Vic2025!
-    volumes:
-      - db_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
-
-  snipeit:
-    image: snipe/snipe-it:latest
-    container_name: snipeit_app
-    depends_on:
-      db:
-        condition: service_healthy
-    ports:
-      - "8080:80"
-    environment:
-      APP_KEY: ${APP_KEY}
-      APP_DEBUG: ${APP_DEBUG}
-      APP_URL: ${APP_URL}
-      DB_CONNECTION: ${DB_CONNECTION}
-      DB_HOST: ${DB_HOST}
-      DB_DATABASE: ${DB_DATABASE}
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      MAIL_DRIVER: ${MAIL_DRIVER}
-      MAIL_HOST: ${MAIL_HOST}
-      MAIL_PORT: ${MAIL_PORT}
-      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS}
-      MAIL_FROM_NAME: ${MAIL_FROM_NAME}
-    volumes:
-      - snipe_uploads:/var/lib/snipeit/uploads
-    restart: unless-stopped
+# Compose file for production.
 
 volumes:
   db_data:
-  snipe_uploads:
+  storage:
+
+services:
+  app:
+    image: snipe/snipe-it:${APP_VERSION:-latest}
+    container_name: snipeit_app
+    restart: unless-stopped
+    volumes:
+      - storage:/var/lib/snipeit
+    ports:
+      - "${APP_PORT:-8080}:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+
+  db:
+    image: mariadb:11.4.7
+    container_name: snipeit_db
+    restart: unless-stopped
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    healthcheck:
+      # https://mariadb.com/kb/en/using-healthcheck-sh/#compose-file-example
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 1s
+      retries: 5
