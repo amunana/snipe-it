@@ -1,4 +1,3 @@
-version: '3.8'
 
 services:
   db:
@@ -29,7 +28,7 @@ services:
     environment:
       APP_DEBUG: 'false'
       APP_URL: http://localhost:8080
-      APP_KEY: 47cM7IKmLeYSqETtwgk22eV4YwMvmmg0Ny/Jz8nb+sQ=
+      APP_KEY: generate
       # DB
       DB_CONNECTION: mysql
       DB_HOST: db
