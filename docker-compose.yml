@@ -5,10 +5,10 @@ services:
     container_name: snipeit_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: Vic2025!
+      MYSQL_ROOT_PASSWORD:  Vic2025!
       MYSQL_DATABASE: snipeit
       MYSQL_USER: admin
-      MYSQL_PASSWORD: Vic2025!
+      MYSQL_PASSWORD:  Vic2025!
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
@@ -17,15 +17,15 @@ services:
       timeout: 5s
       retries: 10
 
-  snipeit:
+ snipeit:
     image: snipe/snipe-it:latest
     container_name: snipeit_app
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - "8080:80"   # abre http://localhost:8080
-  environment:
+      - "8080:80"
+    environment:
       APP_DEBUG: 'false'
       APP_URL: http://localhost:8080
       APP_KEY: base64:5RuXZD4CszLvd50GdYDfzmxJS90CLbp23R4kotb7a/4=
