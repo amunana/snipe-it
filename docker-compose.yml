@@ -1,14 +1,13 @@
-
 services:
   db:
     image: mariadb:10.6
     container_name: snipeit_db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD:  Vic2025!
+      MYSQL_ROOT_PASSWORD: Vic2025!
       MYSQL_DATABASE: snipeit
       MYSQL_USER: admin
-      MYSQL_PASSWORD:  Vic2025!
+      MYSQL_PASSWORD: Vic2025!
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
@@ -17,27 +16,32 @@ services:
       timeout: 5s
       retries: 10
 
- snipeit:
+  snipeit:
     image: snipe/snipe-it:latest
     container_name: snipeit_app
     depends_on:
       db:
         condition: service_healthy
     ports:
+      - "8080:80"
     environment:
-      - APP_KEY=${APP_KEY}
-      - APP_DEBUG=${APP_DEBUG}
-      - APP_URL=${APP_URL}
-      - DB_CONNECTION=${DB_CONNECTION}
-      - DB_HOST=${DB_HOST}
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - MAIL_DRIVER=${MAIL_DRIVER}
-      - MAIL_HOST=${MAIL_HOST}
-      - MAIL_PORT=${MAIL_PORT}
-      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
-      - MAIL_FROM_NAME=${MAIL_FROM_NAME}
+      APP_KEY: ${APP_KEY}
+      APP_DEBUG: ${APP_DEBUG}
+      APP_URL: ${APP_URL}
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      MAIL_DRIVER: ${MAIL_DRIVER}
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_FROM_ADDRESS: ${MAIL_FROM_ADDRESS}
+      MAIL_FROM_NAME: ${MAIL_FROM_NAME}
     volumes:
       - snipe_uploads:/var/lib/snipeit/uploads
     restart: unless-stopped
+
+volumes:
+  db_data:
+  snipe_uploads:
